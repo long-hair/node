@@ -9,7 +9,9 @@
 </template>
 
 <script>
-import axios from 'axios'
+import http from '../../api/http'
+import {REGISTER} from '../../api/url'
+
 export default {
   name: '',
   data () {
@@ -23,9 +25,8 @@ export default {
   mounted () {},
   methods: {
     registerAction(){
-      console.log(this.username,this.password)
-      axios.post(
-        '/api/user/register',
+      http.post(
+        REGISTER,
         {
           username:this.username,
           password:this.password,
@@ -44,7 +45,6 @@ export default {
         }
       })
       .catch(error=>{
-        console.log(error);
       })
 
     }

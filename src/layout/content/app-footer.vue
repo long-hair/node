@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="foot">
      <a-layout-footer style="text-align: center">
         Ant Design ©2018 Created by Ant UED
       </a-layout-footer>
@@ -25,4 +25,5 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-</style>
+ 
+    </style>

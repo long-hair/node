@@ -12,12 +12,12 @@
               <a-layout-content style="margin: 0 16px">
             <!-- 面包屑 -->
             <BreadCrumb></BreadCrumb>
-              <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
-                <router-view></router-view>
+              <div class="concent" :style="{  background: '#fff'}">
+                <router-view style="margin:24px" ></router-view>
               </div>
             </a-layout-content>
           <!-- 底部 -->
-          <footer></footer>
+          <Footer></Footer>
           </a-layout>
        </a-layout>
       </a-layout-content>
@@ -69,4 +69,14 @@ export default {
 .ant-layout{
   height: 100%;
 }
+
+</style>
+<style lang="scss" scoped>
+.concent{
+  position: relative;
+  min-height: 500px;
+  padding: 24px;
+  background-color: white;
+}
+
 </style>

@@ -1,8 +1,8 @@
 <template>
-  <div class="table">
+  <div class="table" v-if="td"> 
      <div class="title">
-        <span>课程列表</span>
-        <span class="add" @click="add">新增课程</span>
+        <span>轮播图列表</span>
+        <span class="add" @click="add">新增轮播图</span>
       </div>
       <table border="1px"  
        >
@@ -12,12 +12,16 @@
           <th v-for="item in th">{{item[0]}}</th>
           <th class="operate">操作</th>
         </tr>
-        <tr v-for="(item,index) in td" :key="index">
-          <td><input type="checkbox" name="select" value="index" :key="index"></td>
-          <td v-for="(i,ins) in th" :key="ins">{{item[th[ins][1]]}}</td>
-          <td>
+        <tr v-for="(item,index) in td" :name='index ':key="index">
+          <td><input type="checkbox" name="select" value="index" :key="index" ></td>
             <!-- <span>编辑</span> -->
-            <span @click="del(item.courseNumber)" >删除</span>
+            <td v-if="item" v-for="(i,ins) in th" :key="ins">{{ ins !=1 ? item[th[ins][1]] : ''}}
+
+            <img :src="item.articleImg" alt="" v-if="ins==1">
+
+            </td>
+            <td>
+            <span @click="del(item.articleName)" >删除</span>
 
           </td>
         </tr>
@@ -41,10 +45,9 @@
 
 <script>
 import http from '../api/http'
-import {COURSE_ADD,DEL_COURSE} from "../api/url"
+import {DEL_BANNER} from "../api/url"
 export default {
   created(){
-    console.log(1)
   },
  props:{
    th:Array,
@@ -63,7 +66,7 @@ export default {
  
   methods: {
     add(){
-      this.$router.push({name:'course-add'})
+      this.$router.push({name:'article-add'})
     },
     get(item){
       this.index = item
@@ -71,8 +74,9 @@ export default {
 
     },
     async del(n){
-     const result = await http.get(DEL_COURSE,{
-        courseNumber:n
+      console.log(n)
+     const result = await http.get(DEL_BANNER,{
+        'articleName':n
       })
     if(result.data.code==0){
       alert(result.data.message)
@@ -90,6 +94,10 @@ export default {
 .active{
   background-color: cornflowerblue;
   color: white;
+}
+img{
+  width: 40px;
+  height: 40px;
 }
 .table{
   width: 915px;

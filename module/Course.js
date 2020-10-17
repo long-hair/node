@@ -60,6 +60,10 @@ module.exports = model('course',{
   courseDate:{
     type:Array,
     require:false
-
+  },
+  // 报名人数
+  coursePeople:{
+    type:Number,
+    default:0,
   }
 })

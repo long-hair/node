@@ -1,15 +1,16 @@
 module.exports = {
+  publicPath:'/pc/static',
   devServer: {
     open: true,
     proxy: {
-      '/api': {
+      '/pc/api': {
         target: 'http://localhost:8000/',
         changeOrigin: true,
         // pathRewrite: {
         //   '/api': '/',
         // },
       },
-      '/ajax': {
+      '/pc/ajax': {
         target: 'http://localhost:8000/',
         changeOrigin: true,
         // pathRewrite: {

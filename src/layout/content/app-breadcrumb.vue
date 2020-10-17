@@ -20,7 +20,7 @@ export default {
   watch:{
     $route:{
       handler(){  
-       this.$route.matched.shift
+       this.$route.matched.shift()
        this.route = this.$route.matched
       },
       immediate:true,
@@ -29,6 +29,10 @@ export default {
     }
   },
   created(){
+    // console.log(
+    //   this.routes,
+    //   this.route
+    // )
     
 
   },

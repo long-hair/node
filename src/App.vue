@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-   <router-view></router-view>
+   <router-view ></router-view>
     <!-- <Login v-if="'login' == show"></Login>
     <Register v-if="'register' == show" @finish ="showAction('login')" ></Register> -->
   </div>

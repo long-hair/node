@@ -1,8 +1,8 @@
 <template>
-  <div class="table">
+   <div class="table">
      <div class="title">
         <span>课程列表</span>
-        <span class="add" @click="add">新增课程</span>
+        <span class="add" @click="add">新增教师</span>
       </div>
       <table border="1px"  
        >
@@ -17,12 +17,12 @@
           <td v-for="(i,ins) in th" :key="ins">{{item[th[ins][1]]}}</td>
           <td>
             <!-- <span>编辑</span> -->
-            <span @click="del(item.courseNumber)" >删除</span>
+            <span @click="del(item.indentNumber)" >取消订单</span>
 
           </td>
         </tr>
       </table>
-      <div class="footer">
+      <div class="footer" v-if="length">
          <span class="checkall"><input type="checkbox">全选</span>
       <span class="all">批量导出</span>
       <span class="page">共{{Math.ceil(length/5)}}页/共{{length}}条数据</span>
@@ -38,10 +38,9 @@
      
   </div>
 </template>
-
 <script>
 import http from '../api/http'
-import {COURSE_ADD,DEL_COURSE} from "../api/url"
+import {DEL_INDENT} from "../api/url"
 export default {
   created(){
     console.log(1)
@@ -63,7 +62,7 @@ export default {
  
   methods: {
     add(){
-      this.$router.push({name:'course-add'})
+      this.$router.push({name:'teachers-add'})
     },
     get(item){
       this.index = item
@@ -71,8 +70,8 @@ export default {
 
     },
     async del(n){
-     const result = await http.get(DEL_COURSE,{
-        courseNumber:n
+     const result = await http.get(DEL_INDENT,{
+        indentNumber:n
       })
     if(result.data.code==0){
       alert(result.data.message)

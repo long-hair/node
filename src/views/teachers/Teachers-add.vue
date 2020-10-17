@@ -2,19 +2,19 @@
   <div class="add-course">
     <ul>
       <li>
-        <label for="">课程编号</label>
+        <label for="">教师姓名</label>
         <input  type="text"
-                v-model="number"
+                v-model="name"
                placeholder="请输入">
       </li>
       <li>
-        <label for="">课程名称</label>
+        <label for="">手机号</label>
         <input type="text"
-         v-model="name"
+         v-model="phone"
                placeholder="请输入">
       </li>
       <li class="list-pic">
-                <label for="">列表图</label>
+                <label for="">头像</label>
               <div class="clearfix">
             <a-upload
               action="
@@ -37,16 +37,16 @@
           </div>
           <h6>建议尺寸120*90像素，大小不要超过1M</h6>
       </li>
-      <li>
-        <label for="">校区</label>
-        <input type="checkbox" v-model="school" name="haidian" value="海淀校区" id="1">海淀校区
-        <input type="checkbox" v-model="school" name="chaoyang" value="朝阳校区" id="2">朝阳校区
-        <input type="checkbox" v-model="school" name="xicheng" value="西城校区" id="3">西城校区
-        <input type="checkbox" v-model="school" name="dongcheng" value="东城校区" id="4">东城校区
-        <input type="checkbox" v-model="school" name="shijingshan" value="石景山校区" id="5">石景山校区
-        <input type="checkbox" v-model="school" name="fengtai" value="丰台校区" id="6">丰台校区
-
-      </li>
+      <li><label>校区</label>
+          <select v-model="school">
+            <option value="">请选择校区</option>
+            <option value="海淀校区">海淀校区</option>
+            <option value="朝阳校区">朝阳校区</option>
+            <option value="西城校区">西城校区</option>
+            <option value="东城校区">东城校区</option>
+            <option value="石景山校区">石景山校区</option>
+          </select>
+        </li>
        <li><label>年级</label>
           <select v-model="grade">
             <option value="">请选择年级</option>
@@ -59,27 +59,21 @@
 
           </select>
         </li>
-       <li><label>学期</label>
-          <select v-model="term">
-            <option value="">请选择学期</option>
+       <li><label>教师类型</label>
+          <select v-model="type">
+            <option value="">请选择教师类型</option>
             <option value="不限">不限</option>
-            <option value="春季班">春季班</option>
-            <option value="夏季版">夏季版</option>
-            <option value="秋季班">秋季班</option>
-            <option value="冬季版">冬季版</option>
+            <option value="授课老师">授课老师</option>
+            <option value="业务老师">业务老师</option>
           </select>
         </li>
       <li>
-        <label for="">价格</label>
-        <input v-model="price" type="text" placeholder="0.00">元
-      </li>
-      <li>
-        <label for="">名额</label>
-        <input v-model="places" type="text" placeholder="0">人
+        <label for="">联系地址</label>
+        <input v-model="site" type="text" placeholder="">
       </li>
       <li><label>学科</label>
           <select v-model="subject">
-            <option value="-1">请选择学科</option>
+            <option value="">请选择学科</option>
             <option value="不限">不限</option>
             <option value="语文">语文</option>
             <option value="数学">数学</option>
@@ -87,40 +81,12 @@
           </select>
       </li>
       <li>
-        <label for="">是否上架</label>
-        <input type="radio" name="putaway">是
-        <input type="radio" name="putaway">否
-      </li>
-      <li>
         <label for="">是否推荐到首页</label>
-        <input type="radio" name="home">是
-        <input type="radio" name="home">否
+        <input type="radio" name="home" value="是" v-model="home">是
+        <input type="radio" name="home" value="否" v-model="home">否
       </li>
-          <li>
-        <label for="">是否立即开课</label>
-        <input type="radio" name="open">是
-        <input type="radio" name="open">否
-      </li>
-        <li class="time">
-          <label  for="">课程日期</label>
-          <div>
-            
-            <a-range-picker v-model= 'value' >
-              <template slot="dateRender"
-                        slot-scope="current">
-                <div class="ant-calendar-date"
-                     :style="getCurrentStyle(current)">
-                  {{ current.date() }}
-                </div>
-              </template>
-            </a-range-picker>
-          </div>
-        </li>
-        <li><label for="">课时</label>
-        <input v-model="time" type="text" placeholder="0">
-        </li>
         <li>
-          <label for="">课程介绍</label>
+          <label for="">老师介绍</label>
           <textarea v-model="introduce" name="" id="" cols="80" rows="10"></textarea>
         </li>
     </ul>
@@ -139,7 +105,7 @@ import {DatePicker,Input} from "ant-design-vue"
 import reqwest from 'reqwest';
 import {Upload,Button,Icon,Modal} from "ant-design-vue"
 import http from '../../api/http'
-import {COURSE_ADD} from "../../api/url"
+import {ADD_TEACHERS} from "../../api/url"
 function getBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -169,18 +135,26 @@ export default {
         //   status: 'error',
         // },
       ],
+      // 老师介绍
       introduce:'',
-      time:'',
+      // 推荐到首页
+      home:'',
+      // 学科
       subject:'',
-      places:'',
-      price:'',
-      term:'',
+      // 联系地址
+      site:'',
+      // 教师类型
+      type:'',
+      // 年级
       grade:'',
-      school:[],
+      // 校区
+      school:'',
+      // 头像
       img:'',
+      // 手机号
+      phone:'',
+      // 教师名
       name:'',
-      number:''
-
     };
   },
     components:{
@@ -188,37 +162,33 @@ export default {
     [Button.name]:Button,
     [Icon.name]:Icon,
     [Modal.name]:Modal,
-    [DatePicker.name]:DatePicker,
-    [DatePicker.RangePicker.name]:DatePicker.RangePicker,
-    [DatePicker.WeekPicker.name]:DatePicker.WeekPicker,
     
   },
   mounted () { },
   methods: {
    async submit(){
-      const result = await  http.post(COURSE_ADD,{
-        courseNumber:this.number,
-        courseName:this.name,
-        courseImg:this.img,
-        courseSchool:this.school,
-        courseGrade:this.grade,
-        courseTerm:this.term,
-        coursePrice:this.price,
-        coursePlaces:this.places,
-        courseSubject:this.subject,
-        courseTime:this.time,
-        courseIntroduce:this.introduce,
-        courseDate:this.value,
+      const result = await  http.post(ADD_TEACHERS,{
+        teachersName:this.name,
+        teachersPhone:this.phone,
+        teachersImg:this.img,
+        teachersSchool:this.school,
+        teachersGrade:this.grade,
+        teachersType:this.type,
+        teachersSite:this.site,
+        teachersSubject:this.subject,
+        teachersHome:this.home,
+        teachersIntroduce:this.introduce,
+
       })
       if(result.data.code==0){
         alert('保存成功!')
-        this.$router.push({name:'course'})
+        this.$router.push({name:'teachers'})
       }else{
-        alert('该编号已存在请换一个!')
+        alert(result.data.message)
       }
     },
     cancel(){
-              this.$router.push({name:'course'})
+              this.$router.push({name:'teachers'})
 
 
     },
@@ -261,11 +231,13 @@ export default {
   color: #666;
 }
 .add-course{
+  margin-left: -24px;
+  padding-bottom: 50px;
   position: absolute;
   width: 100%;
-  height: 100%;
+  // height: 100%;
   background-color: white;
-  z-index: 1;
+  z-index: 10;
   li{
     list-style: none;
     display: flex;

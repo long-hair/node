@@ -12,11 +12,11 @@
         <li><label>校区</label>
           <select>
             <option value="0">请选择校区</option>
-            <option value="青海">青海</option>
-            <option value="北京">北京</option>
-            <option value="上海">上海</option>
-            <option value="广州">广州</option>
-            <option value="深圳">深圳</option>
+            <option value="海淀校区">海淀校区</option>
+            <option value="朝阳校区">朝阳校区</option>
+            <option value="西城校区">西城校区</option>
+            <option value="东城校区">东城校区</option>
+            <option value="石景山校区">石景山校区</option>
           </select>
         </li>
 
@@ -61,7 +61,7 @@
           <label for="">上传时间</label>
           <div>
             
-            <a-range-picker v-model="value">
+            <a-range-picker :value="t"  v-model="value">
               <template slot="dateRender"
                         slot-scope="current">
                 <div class="ant-calendar-date"
@@ -85,7 +85,7 @@
 import http from '../../api/http'
 import {GET_COURSE} from "../../api/url"
 import tables from "../../component/Coursetable"
-import {DatePicker} from "ant-design-vue"
+import {DatePicker,input} from "ant-design-vue"
 export default {
   name: '',
   watch:{
@@ -97,10 +97,11 @@ export default {
     return {
         value:'',
         th:[['课程编号','courseNumber'],['课程名称','courseName'],['校区','courseSchool'],['年级','courseGrade']
-        ,['学期','courseTerm'],['价格','coursePrice'],['名额','coursePlaces'],['学科','courseSubject']],
+        ,['学期','courseTerm'],['价格','coursePrice'],['名额','coursePlaces'],['报名人数','coursePeople'],['学科','courseSubject']],
         td:[],
         skip:0,
         len:'',
+        t:100,
 
     };
   },
@@ -108,7 +109,8 @@ export default {
     [DatePicker.name]:DatePicker,
     [DatePicker.RangePicker.name]:DatePicker.RangePicker,
     [DatePicker.WeekPicker.name]:DatePicker.WeekPicker,
-    tables
+    tables,
+    [input.name]:input
 
   },
   mounted () { },
@@ -131,8 +133,28 @@ export default {
        })
        this.len =  result.data[result.data.length-1]
          result.data.pop();
+         result.data =  result.data.map(item=>{
+          
+             var arr = ''
+             for(var i = 0; i<item.courseSchool.length;i++){
+               arr += item.courseSchool[i] + ' '
+               
+            
+             }
+ 
+             return {
+               ...item,
+               courseSchool:arr
+           }
+         })
+        //    ({
+        //   ...item,
+        //   courseSchool:item.courseSchool[0]
+
+        //  })
+        //  )
+        //  }
         this.td=result.data
-        console.log(this.len,this.td)
 
     }
   }

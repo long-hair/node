@@ -1,10 +1,14 @@
 const express = require('express');
+const path = require('path');
 const session = require('express-session');
 const config = require('./config')
 const MongoDBStore = require('connect-mongodb-session')(session);
  
 const app = express();
 //准备session存放仓库
+
+
+
 
 
 var store = new MongoDBStore({
@@ -44,9 +48,58 @@ server = app.listen(3000);
 app.use(express.urlencoded());
 app.use(express.json());
 
-app.use('/api/user',require('./routers/userRouter'));
-app.use('/ajax/course',require('./routers/courseRouter'));
+
+
+
+
+
+
+
+app.use('/pc/static',express.static(path.join(__dirname,'./www')));
+// app.use('/js',express.static(path.join(__dirname,'./www/js')));
+
+
+
+app.use('/pc/api/user',require('./routers/userRouter'));
+
+app.use('/pc/ajax/usersp',require('./routers/userRoutersp'));
+app.use('/pc/ajax/course',require('./routers/courseRouter'));
+app.use('/pc/ajax/article',require('./routers/articleRouter'));
+app.use('/pc/ajax/teachers',require('./routers/teachersRouter'));
+// 订单
+app.use('/pc/ajax/indent',require('./routers/identRouter'));
+
+
+
 app.use('/img',require('./routers/imgRouter'));
+
+app.use('/pc',(req,res)=>{
+  res.sendFile(path.join(__dirname,'./www/index.html'));
+})
+
+
+// 手机端
+app.use('/sp/static',express.static(path.join(__dirname,'./sp')));
+// app.use('/js',express.static(path.join(__dirname,'./www/js')));
+
+
+
+app.use('/sp/api/user',require('./routers/userRouter'));
+
+app.use('/sp/ajax/usersp',require('./routers/userRoutersp'));
+app.use('/sp/ajax/course',require('./routers/courseRouter'));
+app.use('/sp/ajax/article',require('./routers/articleRouter'));
+app.use('/sp/ajax/teachers',require('./routers/teachersRouter'));
+// 订单
+app.use('/sp/ajax/indent',require('./routers/identRouter'));
+
+
+
+// app.use('/img',require('./routers/imgRouter'));
+
+app.use('/sp',(req,res)=>{
+  res.sendFile(path.join(__dirname,'./sp/index.html'));
+})
 
 
 module.exports=app;

@@ -116,7 +116,7 @@ export default{
         component:{
           render:(h)=><router-view/>
         },
-        redirect:'/indent/indent-list',
+        // redirect:'/indent/indent-list',
         children:[
           // 订单列表
           {
@@ -167,6 +167,7 @@ export default{
            meta:{
              title:'校区管理'
            },
+       
            component:()=>import('../views/teachers/Teachers-school.vue')
              },
           // 教师管理
@@ -176,7 +177,17 @@ export default{
           meta:{
             title:'教师管理'
           },
-          component:()=>import('../views/teachers/Teachers-list.vue')
+          component:()=>import('../views/teachers/Teachers-list.vue'),
+          children:[            
+            {
+              path:'teachers-add',
+              name:'teachers-add',
+              meta:{
+                title:'新增教师'
+              },
+              component:()=>import('../views/teachers/Teachers-add.vue'),
+          }
+            ]
            },
           ]
       },
@@ -187,7 +198,31 @@ export default{
         meta:{
           title:'文章管理'
         },
-        component:()=>import('../views/article/Article.vue')
+        component:{
+          render:(h)=><router-view/>
+        },
+        redirect:'/article/banner-list',
+        children:[
+          {
+            path:'banner-list',
+            name:'banner-list',
+            meta:{
+              title:'轮播管理'
+            },
+            component:()=>import('../views/article/Article.vue'),
+            
+          children:[            
+            {
+              path:'article-add',
+              name:'article-add',
+              meta:{
+                title:'新增课程'
+              },
+              component:()=>import('../views/article/Article-add.vue'),
+          }
+            ]
+          }
+      ]
       },
        //促销活动
        {

@@ -17,7 +17,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import http from '../../api/http'
+import {LOGIN} from '../../api/url'
 
 export default {
   name: '',
@@ -32,8 +33,8 @@ export default {
   mounted () {},
   methods: {
     loginAction(){
-      axios.post(
-        '/api/user/login',
+      http.post(
+        LOGIN,
         {
           username:this.username,
           password:this.password
@@ -50,7 +51,6 @@ export default {
         }
       })
       .catch(error=>{
-        console.log(error);
       })
 
     }
@@ -128,6 +128,7 @@ export default {
            border-bottom: 0px;
           }
           .btn{
+            cursor: pointer;
             width: 262px;
             height: 44px;
             background-color: rgb(16,142,233);
